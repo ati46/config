@@ -1,0 +1,111 @@
+" ~/.vimrc
+syntax enable
+set nocompatible " 关闭 vi 兼容模式
+set background=dark
+":colorscheme jummidark " 配色
+":colorscheme space_vim_theme " 配色
+:colorscheme miramare " 配色
+set scrolloff=5 "光标距离下边框的最小行数
+syntax on " 自动语法高亮
+set number " 显示行号
+set cursorline " 突出显示当前行
+set ruler " 打开状态栏标尺
+set shiftwidth=4 " 设定 << 和 >> 命令移动时的宽度为 4
+set softtabstop=4 " 使得按退格键时可以一次删掉 4 个空格
+set tabstop=4 " 设定 tab 长度为 4
+set nobackup " 覆盖文件时不备份
+set autochdir " 自动切换当前目录为当前文件所在的目录
+filetype plugin indent on " 开启插件
+set backupcopy=yes " 设置备份时的行为为覆盖
+set ignorecase smartcase " 搜索时忽略大小写，但在有一个或以上大写字母时仍保持对大小写敏感
+set nowrapscan " 禁止在搜索到文件两端时重新搜索
+set incsearch " 输入搜索内容时就显示搜索结果
+set hlsearch " 搜索时高亮显示被找到的文本
+set noerrorbells " 关闭错误信息响铃
+set novisualbell " 关闭使用可视响铃代替呼叫
+set t_vb= " 置空错误铃声的终端代码
+"set showmatch " 插入括号时，短暂地跳转到匹配的对应括号
+"set matchtime=2 " 短暂跳转到匹配括号的时间
+set magic " 设置魔术
+set hidden " 允许在有未保存的修改时切换缓冲区，此时的修改由 vim 负责保存
+set guioptions-=T " 隐藏工具栏
+set guioptions-=m " 隐藏菜单栏
+set smartindent " 开启新行时使用智能自动缩进
+set backspace=indent,eol,start
+" 不设定在插入状态无法用退格键和 Delete 键删除回车符
+set cmdheight=1 " 设定命令行的行数为 1
+set laststatus=2 " 显示状态栏 (默认值为 1, 无法显示状态栏)
+set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\ 
+" 设置在状态行显示的信息
+set foldenable " 开始折叠
+set foldmethod=syntax " 设置语法折叠
+set foldcolumn=0 " 设置折叠区域的宽度
+setlocal foldlevel=1 " 设置折叠层数为
+" set foldclose=all " 设置为自动关闭折叠 
+" nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+" 用空格键来开关折叠
+
+" 设置备份目录
+set backupdir=~/.vim/backup/tmp
+set dir=~/.vim/backup/tmp
+
+
+" return OS type, eg: windows, or linux, mac, et.st..
+function! MySys()
+if has("win16") || has("win32") || has("win64") || has("win95")
+return "windows"
+elseif has("unix")
+return "linux"
+endif
+endfunction
+
+" 用户目录变量$VIMFILES
+if MySys() == "windows"
+let $VIMFILES = $VIM.'/vimfiles'
+elseif MySys() == "linux"
+let $VIMFILES = $HOME.'/.vim'
+endif
+
+" 设定doc文档目录
+let helptags=$VIMFILES.'/doc'
+
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+"Plug 'rlue/vim-barbaric'
+"Plug 'lyokha/vim-xkbswitch'
+Plug 'ybian/smartim'
+Plug 'vim-airline/vim-airline'
+Plug 'ferrine/md-img-paste.vim'
+call plug#end()
+
+" markdown img 粘贴配置
+"设置默认储存文件夹。这里表示储存在当前文档所在文件夹下的'pic'文件夹下，相当于 ./pic/
+let g:mdip_imgdir = '.images' 
+"设置默认图片名称。当图片名称没有给出时，使用默认图片名称
+let g:mdip_imgname = 'image'
+"设置快捷键，个人喜欢 Ctrl+p 的方式，比较直观
+autocmd FileType markdown nnoremap <silent> <C-p> :call mdip#MarkdownClipboardImage()<CR>
+
+"-----------------------------------------------------------------
+" plugin - NERD_tree.vim 以树状方式浏览系统中的文件和目录
+" :ERDtree 打开NERD_tree :NERDtreeClose 关闭NERD_tree
+" o 打开关闭文件或者目录 t 在标签页中打开
+" T 在后台标签页中打开 ! 执行此文件
+" p 到上层目录 P 到根目录
+" K 到第一个节点 J 到最后一个节点
+" u 打开上层目录 m 显示文件系统菜单（添加、删除、移动操作）
+" r 递归刷新当前目录 R 递归刷新当前根目录
+"-----------------------------------------------------------------
+" F3 NERDTree 切换
+map <F3> :NERDTreeToggle<CR>
+imap <F3> <ESC>:NERDTreeToggle<CR>
+" 默认显示隐藏文件
+let NERDTreeShowHidden=1
+
+" 设置normal模式切换到的输入法
+"let g:XkbSwitchEnabled = 1
+"let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
+"let g:barbaric_ime = 'xkb-switch'
+
+
+let g:smartim_default = "com.apple.keylayout.ABC"
