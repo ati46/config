@@ -94,7 +94,7 @@ yabai -m rule --add label=musicapp app="QQ音乐" space=10
 
 
 # 临时性的App 也就是manage=off不受到yabai平铺式的限制，之前怎么弹出来就怎么弹出来
-otherApp='^(IINA|访达|Calendar|日历|System Preferences|系统偏好设置|企业微信|预览|Mail|微信|WeChatc|QQ|QQ音乐|Android Studio|印象笔记|归档实用工具|Übersicht|OpenCore Configurator|iStat Menus Status)$'
+otherApp='^(IINA|访达|Calendar|日历|System Preferences|系统偏好设置|企业微信|预览|Mail|微信|WeChatc|QQ|QQ音乐|Android Studio|印象笔记|归档实用工具|Übersicht|OpenCore Configurator|iStat Menus Status|App Store|微文档|微盘)$'
 yabai -m rule --add app="${otherApp}" manage=off
 
 yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
